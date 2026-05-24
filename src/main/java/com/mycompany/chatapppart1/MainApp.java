@@ -4,6 +4,7 @@
  */
 package com.mycompany.chatapppart1;
 
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -99,7 +100,22 @@ public class MainApp {
                     for (int i =0; i< numMessages ; i++){
                        int MessageNum = i + 1;
                        System.out.println("---- Message " + MessageNum + " ----");
-                       //
+                       
+                       Random random = new Random();
+                       long number = 1000000000L + (long)(random.nextDouble() * 9000000000L);
+                       String idString = String.valueOf(number);
+                       
+                       // ==================  User message enetered ==================
+                       System.out.println("Enter your message:");
+                       String Text = input.nextLine();
+                       
+                       if (Text.length() > 250){
+                           int over = Text.length() - 250;
+                           System.out.println("Your message is over " + over + "letters long, please reduce size next time");
+                       }else{
+                           System.out.println("message successfully captured");
+                       }
+                       
                     }
                     
                     break;
