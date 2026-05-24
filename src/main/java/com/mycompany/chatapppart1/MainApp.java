@@ -18,8 +18,11 @@ public class MainApp {
         
         // object of login being created
         Login login = new Login();
-        
+       
+        // decision variables
         String response;
+        int loginFail = 1;
+        boolean running = true;
         
         // --------------- REGISTERATION SECTION ----------------
         System.out.println("==== User registration ============");
@@ -44,17 +47,71 @@ public class MainApp {
         //-------------LOGIN SECTION ------------------
         System.out.println("\n========USER LOGIN========");
         
-        System.out.print("Enter your username");
-        String loginUsername = input.nextLine();
+        while(loginFail <= 3){
         
-        System.out.print("Enter your password");
-        String loginPassword = input.nextLine();
+            System.out.print("Enter your username");
+            String loginUsername = input.nextLine();
+
+            System.out.print("Enter your password");
+            String loginPassword = input.nextLine();
+
+            // checking if user exists
+            boolean loggedIn = login.loginUser(loginUsername, loginPassword);
+            
+            if(loggedIn){
+                String message = login.LoginStatus(loggedIn);
+                System.out.println(message);
+                loginFail = 3;
+                System.out.println("=====================================");
+                System.out.println("Welcome to ChatApp.");
+                System.out.println("=====================================");
+            }else{
+                String message = login.LoginStatus(loggedIn);
+                System.out.println(message);
+                System.out.println("Attempts have done is "+ loginFail + ", if lands on 3 will be kicked!");
+                loginFail++;
+            }
+            // telling the user the outcome
+            
+            
+        }
         
-        // checking if user exists
-        boolean loggedIn = login.loginUser(loginUsername, loginPassword);
+        if (loginFail == 3){
+            System.exit(0);
+        }
         
-        // telling the user the outcome
-        String message = login.LoginStatus(loggedIn);
-        System.out.println(message);
+        // ===================== Main App of program user experience ==========================
+        
+        while (running){
+            System.out.println("1) Send Messages");
+            System.out.println("2) Show recently sent messages");
+            System.out.println("3) Quit");
+            
+            int choice = 0;
+            choice = input.nextInt();
+            
+            switch (choice){
+                case 1 : // when a user wants to send a message
+                    System.out.println("How many messages would you like to send?");
+                    int numMessages = 0;
+                    
+                    // used for the user to enter as much the user has requested.
+                    for (int i =0; i< numMessages ; i++){
+                        
+                    }
+                    
+                    break;
+                case 2:
+                    System.out.println("Feature coming soon, choose another function");
+                    break;
+                case 3:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Input invalid, please choose the correct option.");
+            }
+ 
+        }
+        
     }
 }
