@@ -79,7 +79,11 @@ public class Login {
     
     // login user to system
     public boolean loginUser(String username, String password){
-        return this.username.equals(username) && this.password.equals(password);
+        if(this.username == null || this.password == null){
+        return false;
+    }
+
+    return this.username.equals(username) && this.password.equals(password);
     }
     
     // status if user exists the system or not
