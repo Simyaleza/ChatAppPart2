@@ -38,7 +38,7 @@ public class MainApp {
             response = login.registerUser(username, password, phone);
 
             // Showing the output of registering
-            
+            System.out.println(response);
         } while (response != "User registered successfully.");
         
         //-------------LOGIN SECTION ------------------
