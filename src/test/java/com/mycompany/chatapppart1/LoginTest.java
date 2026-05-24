@@ -50,7 +50,7 @@ public class LoginTest {
     @Test // checking if false phone is validated properly 
     public void phoneValidFormatFalse(){
         boolean result = login.checkCellPhoneNumber("0123456789");
-        assertTrue(result);// should return true
+        assertFalse(result);// should return true
     }
     
     // -----------------------------------------------------
