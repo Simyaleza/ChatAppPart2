@@ -1,0 +1,15 @@
+target/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+*.class
+
+*.jar
+!*-SNAPSHOT.jar
+
+.DS_Store
+Thumbs.db
