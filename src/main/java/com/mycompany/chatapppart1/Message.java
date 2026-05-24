@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.chatapppart1;
+import java.util.Scanner;
 
 /**
  *
@@ -16,25 +17,33 @@ public class Message {
     private String recipient; // To know who is reciving the message
     private String messageText; // The content of the msg
     private String messageHash; // Hashing the message
+    private static int counter = 0;
     
+    Scanner input = new Scanner(System.in);
     
     // constructor
-    public Message(String msgID, int msgNum, String reciver, String Text ){
-        messageID = msgID;
+    public void messageConstruct( int msgNum, String Text ){
         messageNumber = msgNum;
-        recipient = reciver;
         messageText = Text;
+        
+        
     }
     
     // ------- checking if ID is less than 11 characters
-    public boolean CheckMessageID(){
-        return messageID.length() <= 10;
+    public boolean CheckMessageID(String msgID){
+        if (msgID.length() <= 10){
+           messageID = msgID;
+           return true; 
+        }else{
+            return false;
+        }
+        
     }
-    
-    
+
     // --------- validating phone number
-    public String  checkRecipientCell(){
-        if (recipient.startsWith("+27") && recipient.length() <= 12){
+    public String  checkRecipientCell(String reciever){
+        if (reciever.startsWith("+27") && reciever.length() <= 12){
+            recipient = reciever;
             return "Cell phone number successfully captured.";
         }else{
             return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
@@ -56,7 +65,7 @@ public class Message {
        // formating the hash
        String hash = idBegining + ":" + messageNumber + ":"+ fWord + lWord;
        
-       return hash.toUpperCase();
+       return hash.toString();
        
     }
     
@@ -67,7 +76,7 @@ public class Message {
        System.out.println("2) Disregard Message");
        System.out.println("3) Store Message to send later");
        
-       int option = 0; // read from scanner -- logic goes here
+       int option = input.nextInt(); // read from scanner -- logic goes here
        
        switch (option) {
             case 1: 

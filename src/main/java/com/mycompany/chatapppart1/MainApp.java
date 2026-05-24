@@ -19,6 +19,7 @@ public class MainApp {
         
         // object of login being created
         Login login = new Login();
+        Message message = new Message();
        
         // decision variables
         String response;
@@ -60,15 +61,14 @@ public class MainApp {
             boolean loggedIn = login.loginUser(loginUsername, loginPassword);
             
             if(loggedIn){
-                String message = login.LoginStatus(loggedIn);
-                System.out.println(message);
+                System.out.println(login.LoginStatus(loggedIn));
                 loginFail = 3;
                 System.out.println("=====================================");
                 System.out.println("Welcome to ChatApp.");
                 System.out.println("=====================================");
             }else{
-                String message = login.LoginStatus(loggedIn);
-                System.out.println(message);
+                String messageStatus = login.LoginStatus(loggedIn);
+                System.out.println(messageStatus);
                 System.out.println("Attempts have done is "+ loginFail + ", if lands on 3 will be kicked!");
                 loginFail++;
             }
@@ -94,28 +94,58 @@ public class MainApp {
             switch (choice){
                 case 1 : // when a user wants to send a message
                     System.out.println("How many messages would you like to send?");
-                    int numMessages = 0;
+                    int numMessages = input.nextInt();
                     
                     // used for the user to enter as much the user has requested.
                     for (int i =0; i< numMessages ; i++){
                        int MessageNum = i + 1;
                        System.out.println("---- Message " + MessageNum + " ----");
                        
+                       // =============== ID ===========================
                        Random random = new Random();
                        long number = 1000000000L + (long)(random.nextDouble() * 9000000000L);
                        String idString = String.valueOf(number);
+                       boolean correctID = message.CheckMessageID(idString);
+                       System.out.println("Message ID: " +idString);
+                       
+                       
+                       // ============= Reciepient =============== 
+                       String rcOutput;
+                       String recipient;
+                       do{
+                        System.out.println("Enter recipient cell number (e.g. +2783896876)"); 
+                        recipient = input.nextLine();
+                        rcOutput = message.checkRecipientCell(recipient);
+                          
+                      } while (rcOutput != "Cell phone number successfully captured.");
                        
                        // ==================  User message enetered ==================
                        System.out.println("Enter your message:");
                        String Text = input.nextLine();
                        
-                       if (Text.length() > 250){
-                           int over = Text.length() - 250;
-                           System.out.println("Your message is over " + over + "letters long, please reduce size next time");
-                       }else{
-                           System.out.println("message successfully captured");
+                       while (Text.length() > 250){
+                            int over = Text.length() - 250;
+                            System.out.println("Your message is over " + over + "letters long, please reduce size next time");
+                            
+                            System.out.println("Enter your message:");
+                            Text = input.nextLine();
+                            
                        }
+                       System.out.println("message successfully captured");
+                       message.messageConstruct(MessageNum, Text);
+                       String MessageHash = message.createMessageHash();
                        
+                       
+                       
+                       // =============== outputing Message ==============
+                       System.out.println("MessageID: " + idString);
+                       System.out.println("MessageHash: " + MessageHash);
+                       System.out.println("Recipient: " + recipient);
+                       System.out.println("Message: " + Text);
+                       
+                       
+                      
+
                     }
                     
                     break;
