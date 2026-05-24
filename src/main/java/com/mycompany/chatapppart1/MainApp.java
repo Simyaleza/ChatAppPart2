@@ -19,27 +19,27 @@ public class MainApp {
         // object of login being created
         Login login = new Login();
         
-        
+        String response;
         
         // --------------- REGISTERATION SECTION ----------------
         System.out.println("==== User registration ============");
-        
-        System.out.print("Please enter username");
-        String username = input.nextLine();
-        
-        System.out.print("Enter a password: ");
-        String password = input.nextLine();
-        
-        System.out.print("Enter your South African phone number(+27...): ");
-        String phone = input.nextLine();
-        
-        
-        //Registering user
-        String response = login.registerUser(username, password, phone);
-        
-        // Showing the output of registering
-        System.out.println(response);
-        
+        do {
+            System.out.print("Please enter username");
+            String username = input.nextLine();
+
+            System.out.print("Enter a password: ");
+            String password = input.nextLine();
+
+            System.out.print("Enter your South African phone number(+27...): ");
+            String phone = input.nextLine();
+
+
+            //Registering user
+            response = login.registerUser(username, password, phone);
+
+            // Showing the output of registering
+            
+        } while (response != "User registered successfully.");
         
         //-------------LOGIN SECTION ------------------
         System.out.println("\n========USER LOGIN========");
