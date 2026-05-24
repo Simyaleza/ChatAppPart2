@@ -80,9 +80,10 @@ public class Message {
        
        switch (option) {
             case 1: 
+                counter++;
                 return "Message successfully sent.";
             case 2: 
-                return "Press 0 to delete the message.";
+                return "Message shall be deleted!";
             case 3:
                 //storeMessage(); // call your JSON method
                 return "Message successfully stored.";
@@ -95,7 +96,9 @@ public class Message {
    // public String printMessages()
     
     // returns the count of messages sent 
-   // public int returnTotalMessages()
+    public int returnTotalMessages(){
+        return counter;
+    }
     
     //private void storeMessage()}
     
