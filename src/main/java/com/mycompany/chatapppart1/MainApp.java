@@ -97,7 +97,9 @@ public class MainApp {
                     
                     // used for the user to enter as much the user has requested.
                     for (int i =0; i< numMessages ; i++){
-                        
+                       int MessageNum = i + 1;
+                       System.out.println("---- Message " + MessageNum + " ----");
+                       //
                     }
                     
                     break;
