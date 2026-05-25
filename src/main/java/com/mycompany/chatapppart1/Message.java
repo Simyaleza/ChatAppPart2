@@ -102,8 +102,6 @@ public class Message {
                 storeMessage();
                 return "Message successfully sent.";
             case 2:
-                System.out.println("Press 0 to delete the message");
-                String userInput = input.nextLine();
                 return "Message shall be deleted!";
             case 3:
                 storeMessage(); // call your JSON method

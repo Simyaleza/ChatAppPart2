@@ -81,8 +81,9 @@ public class MainApp {
             
             
         }
-        
-        if (loginFail == 3){
+        System.out.println(loginFail);
+        if (loginFail >= 3){
+            System.out.println("Too many attempts");
             System.exit(0);
         }
         
@@ -118,6 +119,7 @@ public class MainApp {
                        String rcOutput;
                        String recipient;
                        do{
+                        input.nextLine();
                         System.out.println("Enter recipient cell number (e.g. +2783896876): "); 
                         recipient = input.nextLine();
                         rcOutput = message.checkRecipientCell(recipient);
@@ -149,6 +151,7 @@ public class MainApp {
                        
                         String msgOutput = message.sentMessage();
                         System.err.println(msgOutput);
+                        System.out.println("");
 
                     }
                     
