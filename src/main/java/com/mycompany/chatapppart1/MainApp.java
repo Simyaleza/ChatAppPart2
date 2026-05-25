@@ -10,6 +10,7 @@ import java.util.List;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import org.json.JSONObject;
 
 /**
  *
@@ -135,7 +136,7 @@ public class MainApp {
                        System.out.println(msgText);
                        String MessageHash = message.createMessageHash();
                        
-                       System.out.println("                        ");
+                       System.out.println();
                        
                        
                        // =============== outputing Message ==============
@@ -144,7 +145,7 @@ public class MainApp {
                        System.out.println("Recipient: " + recipient);
                        System.out.println("Message: " + Text);
                        
-                       System.out.println("                        ");
+                       System.out.println();
                        
                         String msgOutput = message.sentMessage();
                         System.err.println(msgOutput);
@@ -162,8 +163,14 @@ public class MainApp {
 
                     if (messages != null){
                         for(String msg : messages){
+                            
+                            JSONObject obj = new JSONObject(msg);
 
-                            System.out.println(msg);
+                            System.out.println("Message: " + obj.getString("message"));
+                            System.out.println("Recipient: " + obj.getString("recipient"));
+                            System.out.println("MessageID: " + obj.getString("messageID"));
+
+                            System.out.println();
                         }
                     }else{
                         System.out.println("No messages have been saved or sent, thxs for using the app");
@@ -193,8 +200,6 @@ public class MainApp {
         try(FileWriter fw = new FileWriter("messages.json")){
 
             fw.write("");
-
-            System.out.println("JSON file cleared.");
 
         } catch(IOException e){
 
