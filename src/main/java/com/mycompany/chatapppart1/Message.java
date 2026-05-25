@@ -5,6 +5,15 @@
 package com.mycompany.chatapppart1;
 import java.util.Scanner;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.JSONObject;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.util.List;
+
 /**
  *
  * @author snopu
@@ -23,8 +32,8 @@ public class Message {
     
     // constructor
     public void messageConstruct( int msgNum, String Text ){
-        messageNumber = msgNum;
-        messageText = Text;
+        this.messageNumber = msgNum;
+        this.messageText = Text;
         
         
     }
@@ -32,7 +41,7 @@ public class Message {
     // ------- checking if ID is less than 11 characters
     public boolean CheckMessageID(String msgID){
         if (msgID.length() <= 10){
-           messageID = msgID;
+           this.messageID = msgID;
            return true; 
         }else{
             return false;
@@ -43,7 +52,7 @@ public class Message {
     // --------- validating phone number
     public String  checkRecipientCell(String reciever){
         if (reciever.startsWith("+27") && reciever.length() <= 12){
-            recipient = reciever;
+            this.recipient = reciever;
             return "Cell phone number successfully captured.";
         }else{
             return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
@@ -53,19 +62,19 @@ public class Message {
     // ---------- hashes the message
     public String createMessageHash(){
         // getting the 1st 2 char of the ID 
-       String idBegining = messageID.substring(0,2);
+       String idBegining = this.messageID.substring(0,2);
        
        // SPLITTING THE TEXT by space
-       String[] words = messageText.split(" ");
+       String[] words = this.messageText.split(" ");
        
        // getting the 1st s& last space found
        String fWord = words[0];
        String lWord = words[words.length - 1];
        
        // formating the hash
-       String hash = idBegining + ":" + messageNumber + ":"+ fWord + lWord;
+       String hash = idBegining + ":" + this.messageNumber + ":"+ fWord + lWord;
        
-       return hash.toString();
+       return hash.toUpperCase();
        
     }
     
@@ -81,11 +90,12 @@ public class Message {
        switch (option) {
             case 1: 
                 counter++;
+                storeMessage();
                 return "Message successfully sent.";
             case 2: 
                 return "Message shall be deleted!";
             case 3:
-                //storeMessage(); // call your JSON method
+                storeMessage(); // call your JSON method
                 return "Message successfully stored.";
             default:
                 return "Please choose from oprions presented."; // handle unexpected input -- logic goes here
@@ -93,13 +103,42 @@ public class Message {
     }
     
     // displays every message sent 
-   // public String printMessages()
+    public static List<String> printMessages(){
+
+    try{
+
+        return Files.readAllLines(Paths.get("messages.json"));
+
+    } catch(IOException e){
+
+        return null;
+    }
+}
     
     // returns the count of messages sent 
     public int returnTotalMessages(){
         return counter;
     }
     
-    //private void storeMessage()}
+    public void storeMessage(){
+        JSONObject obj = new JSONObject();
+
+        obj.put("messageID", this.messageID);
+        obj.put("recipient", this.recipient);
+        obj.put("message", this.messageText);
+
+        try(FileWriter fw = new FileWriter("messages.json", true)){
+
+            fw.write(obj.toString());
+            fw.write("\n");
+
+            System.out.println("Message stored.");
+
+        } catch(IOException e){
+
+            System.out.println("Error storing message.");
+        }
+    }
+    
     
 }

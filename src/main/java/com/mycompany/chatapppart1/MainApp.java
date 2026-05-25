@@ -6,6 +6,10 @@ package com.mycompany.chatapppart1;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.util.List;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -29,7 +33,7 @@ public class MainApp {
         // --------------- REGISTERATION SECTION ----------------
         System.out.println("==== User registration ============");
         do {
-            System.out.print("Please enter username");
+            System.out.print("Please enter username: ");
             String username = input.nextLine();
 
             System.out.print("Enter a password: ");
@@ -51,10 +55,10 @@ public class MainApp {
         
         while(loginFail <= 3){
         
-            System.out.print("Enter your username");
+            System.out.print("Enter your username: ");
             String loginUsername = input.nextLine();
 
-            System.out.print("Enter your password");
+            System.out.print("Enter your password: ");
             String loginPassword = input.nextLine();
 
             // checking if user exists
@@ -62,10 +66,10 @@ public class MainApp {
             
             if(loggedIn){
                 System.out.println(login.LoginStatus(loggedIn));
-                loginFail = 3;
                 System.out.println("=====================================");
                 System.out.println("Welcome to ChatApp.");
                 System.out.println("=====================================");
+                break;
             }else{
                 String messageStatus = login.LoginStatus(loggedIn);
                 System.out.println(messageStatus);
@@ -113,7 +117,7 @@ public class MainApp {
                        String rcOutput;
                        String recipient;
                        do{
-                        System.out.println("Enter recipient cell number (e.g. +2783896876)"); 
+                        System.out.println("Enter recipient cell number (e.g. +2783896876): "); 
                         recipient = input.nextLine();
                         rcOutput = message.checkRecipientCell(recipient);
                           
@@ -135,6 +139,7 @@ public class MainApp {
                        message.messageConstruct(MessageNum, Text);
                        String MessageHash = message.createMessageHash();
                        
+                       System.out.println("                        ");
                        
                        
                        // =============== outputing Message ==============
@@ -143,11 +148,31 @@ public class MainApp {
                        System.out.println("Recipient: " + recipient);
                        System.out.println("Message: " + Text);
                        
+                       System.out.println("                        ");
                        
-                      
+                        String msgOutput = message.sentMessage();
+                        System.err.println(msgOutput);
 
                     }
                     
+                    List<String> messages = Message.printMessages();
+                    int msgCounter = message.returnTotalMessages();
+
+                    System.out.println("                        ");
+                    System.out.println("========================");
+                    System.out.println("                        ");
+
+                    System.out.println("Total messages sent: " + msgCounter);
+
+                    if (messages != null){
+                        for(String msg : messages){
+
+                            System.out.println(msg);
+                        }
+                    }else{
+                        System.out.println("No messages have been saved or sent, thxs for using the app");
+                    }
+
                     break;
                 case 2:
                     System.out.println("Feature coming soon, choose another function");
@@ -159,6 +184,25 @@ public class MainApp {
                     System.out.println("Input invalid, please choose the correct option.");
             }
  
+        }
+        
+        
+        // once user quits
+        System.out.println("                     ");
+        System.out.println("======================");
+        System.out.println("                       ");
+        
+        System.out.println("Thank you for using the chatapp");
+        
+        try(FileWriter fw = new FileWriter("messages.json")){
+
+            fw.write("");
+
+            System.out.println("JSON file cleared.");
+
+        } catch(IOException e){
+
+            System.out.println("Error clearing file.");
         }
         
     }
