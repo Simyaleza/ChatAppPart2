@@ -21,3 +21,5 @@ User can login again if they registered already
 ### Validation 
 Validates details about the user that have been entered.
 
+### Message
+User can message the 
