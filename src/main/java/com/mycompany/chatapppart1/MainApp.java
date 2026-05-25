@@ -126,17 +126,13 @@ public class MainApp {
                        // ==================  User message enetered ==================
                        System.out.println("Enter your message:");
                        String Text = input.nextLine();
+                       String msgText;
                        
-                       while (Text.length() > 250){
-                            int over = Text.length() - 250;
-                            System.out.println("Your message is over " + over + "letters long, please reduce size next time");
-                            
-                            System.out.println("Enter your message:");
-                            Text = input.nextLine();
-                            
-                       }
-                       System.out.println("message successfully captured");
-                       message.messageConstruct(MessageNum, Text);
+                       do{
+                           msgText = message.messageConstruct(MessageNum, Text);
+                       }while (msgText != "message successfully captured");
+                       
+                       System.out.println(msgText);
                        String MessageHash = message.createMessageHash();
                        
                        System.out.println("                        ");

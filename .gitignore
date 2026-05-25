@@ -14,3 +14,4 @@ nbdist/
 
 .DS_Store
 Thumbs.db
+/nbproject/

@@ -31,12 +31,21 @@ public class Message {
     Scanner input = new Scanner(System.in);
     
     // constructor
-    public void messageConstruct( int msgNum, String Text ){
-        this.messageNumber = msgNum;
-        this.messageText = Text;
+    public String messageConstruct( int msgNum, String Text ){
         
+        if(Text.length() > 250){
+            int over = Text.length() - 250;
+            return "Your message is over " + over + "letters long, please reduce size next time";
+        }else{
+            this.messageNumber = msgNum;
+            this.messageText = Text;
+            return "message successfully captured" ;
+            
+        }
         
-    }
+    }    
+        
+    
     
     // ------- checking if ID is less than 11 characters
     public boolean CheckMessageID(String msgID){
@@ -92,7 +101,9 @@ public class Message {
                 counter++;
                 storeMessage();
                 return "Message successfully sent.";
-            case 2: 
+            case 2:
+                System.out.println("Press 0 to delete the message");
+                String userInput = input.nextLine();
                 return "Message shall be deleted!";
             case 3:
                 storeMessage(); // call your JSON method
