@@ -192,7 +192,7 @@ public class MainApp {
         System.out.println("======================");
         System.out.println("                       ");
         
-        System.out.println("Thank you for using the chatapp");
+        System.out.println("You have used the app");
         
         try(FileWriter fw = new FileWriter("messages.json")){
 
