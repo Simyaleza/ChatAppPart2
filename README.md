@@ -1,4 +1,4 @@
-# Chat Application - Part 1
+# Chat Application - Part 1 & 2
 
 ## Student Information
 - Name: Simayaleza Nopulula
@@ -9,7 +9,7 @@
 ---
 
 ## Project Information
-Chat App where people can speak to each other and part 1 is the user login and registration Section, 
+Chat App where people can speak to each other and part 1 is the user login and registration Section, which includes the messaging feature
 
 ## Features
 ### Regstering user
