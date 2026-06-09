@@ -35,6 +35,8 @@ public class Message {
     private static List<String> storedMessages = new ArrayList<>(); 
     private static List<String> messageHashes = new ArrayList<>(); 
     private static List<String> messageIds = new ArrayList<>(); 
+    private static List<String> recipientStoredList = new ArrayList<>();
+    private static List<String> recipientSentList = new ArrayList<>();
     
     Scanner input = new Scanner(System.in);
     
@@ -107,10 +109,10 @@ public class Message {
        switch (option) {
             case 1: 
                 counter++;
-                storeMessage();
                 sentMessages.add(this.messageText);
                 messageHashes.add(this.messageHash);
                 messageIds.add(this.messageID);
+                recipientSentList.add(this.recipient);
                 return "Message successfully sent.";
             case 2:
                 disregardedMessages.add(this.messageText);
@@ -119,6 +121,7 @@ public class Message {
                 storeMessage(); // call your JSON method
                 messageHashes.add(this.messageHash);
                 messageIds.add(this.messageID);
+                recipientStoredList.add(this.recipient);
                 return "Message successfully stored.";
             default:
                 return "Please choose from oprions presented."; // handle unexpected input -- logic goes here
@@ -162,6 +165,55 @@ public class Message {
             System.out.println("Error storing message.");
         }
     }
+    
+    // used to display all messages
+    public String displayLongestMessage(){
+        String longest = storedMessages.get(0);
+        for (int i = 0; i < storedMessages.size();i++){
+            if (storedMessages.get(i).length() > longest.length()) {
+               longest = storedMessages.get(i);
+            }
+        }
+
+        return longest;
+    }
+    
+    
+    // searching using the ID for the message
+    public String searchByMessageID(String id){
+        for (int i = 0;i< messageIds.size();i++){
+           if (messageIds.get(i).equals(id)){
+               String outputMsg = sentMessages.get(i);
+               return outputMsg;
+           } 
+        }
+        return "Message not found";
+    }
+    
+    
+    // search by recipient
+    public String searchByRecipient(String recipient){
+        StringBuilder results = new StringBuilder();
+        // searching through sent messages
+        for (int i = 0; i < recipientSentList.size();i++){
+            if (recipientSentList.get(i).equals(recipient)){
+                results.append("Message: ");
+                results.append(sentMessages.get(i));
+                results.append("\n");
+            }
+        }
+        // searching through stored messages
+        for (int i = 0; i < recipientStoredList.size();i++){
+            if (recipientStoredList.get(i).equals(recipient)){
+                results.append("Message: ");
+                results.append(storedMessages.get(i));
+                results.append("\n");
+            }
+        }
+        
+        return results.toString();
+    }
+    
     
     
 }

@@ -93,6 +93,7 @@ public class MainApp {
             System.out.println("1) Send Messages");
             System.out.println("2) Show recently sent messages");
             System.out.println("3) Quit");
+            System.err.println("4) Stroed Messages"); 
             
             int choice = 0;
             choice = input.nextInt();
@@ -185,6 +186,15 @@ public class MainApp {
                     break;
                 case 3:
                     running = false;
+                    break;
+                    
+                case 4:
+                    System.out.println("1) Display all stored messages");
+                    System.out.println("2) Display longest messages");// search via the length of the message
+                    System.out.println("3) Search by message ID");
+                    System.out.println("4) Search by recipient");
+                    System.out.println("5) Delete by message hash");
+                    System.out.println("6) Display full report");
                     break;
                 default:
                     System.out.println("Input invalid, please choose the correct option.");
