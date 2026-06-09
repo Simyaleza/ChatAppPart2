@@ -269,7 +269,7 @@ public void testSentMessagesArray_correctlyPopulated() {
         // Arrange required state first
         instance.messageConstruct(1, "Test message");
 
-        String result = instance.sentMessage(3);
+        String result = instance.sentMessage(1);
 
         assertEquals("Message successfully sent.", result);
     }
