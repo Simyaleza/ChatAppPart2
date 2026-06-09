@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,13 @@ public class Message {
     private String messageText; // The content of the msg
     private String messageHash; // Hashing the message
     private static int counter = 0;
+    
+    // arrays of messages
+    private static List<String> sentMessages = new ArrayList<>(); 
+    private static List<String> disregardedMessages = new ArrayList<>(); 
+    private static List<String> storedMessages = new ArrayList<>(); 
+    private static List<String> messageHashes = new ArrayList<>(); 
+    private static List<String> messageIds = new ArrayList<>(); 
     
     Scanner input = new Scanner(System.in);
     
