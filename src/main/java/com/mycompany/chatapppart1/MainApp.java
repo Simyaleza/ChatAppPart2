@@ -17,6 +17,8 @@ import org.json.JSONObject;
  * @author Student
  */
 public class MainApp {
+    
+    
     public static void main(String[] args){
         
         // enables user to enter data
@@ -88,7 +90,7 @@ public class MainApp {
         }
         
         // ===================== Main App of program user experience ==========================
-        
+        message.localStoredMessages();
         while (running){
             System.out.println("1) Send Messages");
             System.out.println("2) Show recently sent messages");
@@ -156,7 +158,7 @@ public class MainApp {
 
                     }
                     
-                    List<String> messages = Message.printMessages();
+                   /* List<String> messages = Message.printMessages();
                     int msgCounter = message.returnTotalMessages();
 
                     System.out.println("                        ");
@@ -179,7 +181,7 @@ public class MainApp {
                     }else{
                         System.out.println("No messages have been saved or sent, thxs for using the app");
                     }
-
+                        */
                     break;
                 case 2:
                     System.out.println("Feature coming soon, choose another function");
@@ -210,14 +212,7 @@ public class MainApp {
         
         System.out.println("Thank you for using the app");
         
-        try(FileWriter fw = new FileWriter("messages.json")){
 
-            fw.write("");
-
-        } catch(IOException e){
-
-            System.out.println("Error clearing file.");
-        }
         
     }
 }

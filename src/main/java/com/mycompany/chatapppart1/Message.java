@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 /**
  *
  * @author snopu
@@ -111,6 +114,7 @@ public class Message {
                 sentMessages.add(this.messageText);
                 messageHashes.add(this.messageHash);
                 messageIds.add(this.messageID);
+                recipientList.add(this.recipient);
                 return "Message successfully sent.";
             case 2:
                 disregardedMessages.add(this.messageText);
@@ -127,16 +131,18 @@ public class Message {
     }
     
     // displays every message sent 
-    public static List<String> printMessages(){
-
-    try{
-
-        return Files.readAllLines(Paths.get("messages.json"));
-
-    } catch(IOException e){
-
-        return null;
-    }
+    public static String printMessages(){
+        StringBuilder report = new StringBuilder();
+        report.append("=== Message Report ====\n");
+        for (int i = 0; i < sentMessages.size(); i++){
+            report.append(messageHashes.get(i)+ " ");
+            report.append(recipientList.get(i)+ " ");
+            report.append(sentMessages.get(i));
+            report.append("\n");
+            
+        }
+        return report.toString();
+   
 }
     
     // returns the count of messages sent 
@@ -163,6 +169,10 @@ public class Message {
             System.out.println("Error storing message.");
         }
     }
+    
+
+    
+    // ==================== part 3 ==================================
     
     // used to display all messages
     public String displayLongestMessage(){
@@ -228,6 +238,33 @@ public class Message {
        }
        
        return "Hash not found.";
+    }
+    
+    
+    public static void localStoredMessages(){
+        try (BufferedReader reader = new BufferedReader(new FileReader("messages.json"))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                // convert line into JSON object
+                JSONObject obj = new JSONObject(line);
+
+                // extract values
+                int messageID = obj.getInt("messageID");
+                String recipient = obj.getString("recipient");
+                String message = obj.getString("message");
+
+                // store message text
+                storedMessages.add(message);
+
+            }
+
+        } catch (IOException e) {
+
+            System.out.println("messages.json file not found yet.");
+        }
     }
     
 }
