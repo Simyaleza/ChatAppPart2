@@ -62,45 +62,36 @@ public class MessageTest {
     }
     
     // Testing if arrays populated properly
-    @Test
-    public void testSentMessagesArray_correctlyPopulated() {
+@Test
+public void testSentMessagesArray_correctlyPopulated() {
 
-        // ---------- Message 1 ----------
-        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
 
-        Message msg1 = new Message();
+    // ---------- Message 1 ----------
+    Message msg1 = new Message();
 
-        msg1.messageConstruct(1, testMessages.get(0));
-        msg1.CheckMessageID("1234567890");
-        msg1.checkRecipientCell(recipients.get(0));
+    msg1.messageConstruct(1, "Did you get the cake?");
+    msg1.CheckMessageID("1234567890");
+    msg1.checkRecipientCell("+27831234567");
 
-        msg1.sentMessage();
+    msg1.sentMessage(1); // SEND
 
-        // ---------- Message 4 ----------
-        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
+    // ---------- Message 4 ----------
+    Message msg4 = new Message();
 
-        Message msg4 = new Message();
+    msg4.messageConstruct(4, "It is dinner time!");
+    msg4.CheckMessageID("0987654321");
+    msg4.checkRecipientCell("+27839876543");
 
-        msg4.messageConstruct(4, testMessages.get(3));
-        msg4.CheckMessageID("0987654321");
-        msg4.checkRecipientCell(recipients.get(3));
+    msg4.sentMessage(1); // SEND
 
-        msg4.sentMessage();
-
-        // ---------- Assertions ----------
-        assertTrue(Message.getSentMessages()
-                .contains("Did you get the cake?"));
-
-        assertTrue(Message.getSentMessages()
-                .contains("It is dinner time!"));
-    }
+    // ---------- ASSERTIONS ----------
+    assertTrue(Message.getSentMessages().contains("Did you get the cake?"));
+    assertTrue(Message.getSentMessages().contains("It is dinner time!"));
+}
     
     
     @Test
     public void testSearchByMessageID_returnsCorrectMessage() {
-
-        // simulate choosing SEND option
-        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
 
         Message msg4 = new Message();
 
@@ -112,7 +103,7 @@ public class MessageTest {
         msg4.checkRecipientCell("0838884567");
 
         // send message
-        msg4.sentMessage();
+        msg4.sentMessage(1);
 
         // expected result
         String expected = "It is dinner time!";
@@ -223,6 +214,68 @@ public class MessageTest {
         // assertion
         assertEquals(expected, actual);
     }
+    
+    
+    @Test
+    public void testCheckRecipientCell() {
+
+        String receiver = "+27831234567";
+
+        String result = instance.checkRecipientCell(receiver);
+
+        assertEquals("Cell phone number successfully captured.", result);
+    }
+
+    @Test
+    public void testMessageConstruct() {
+
+        int msgNum = 1;
+        String text = "Hi Mike, can you join us for dinner tonight?";
+
+        String result = instance.messageConstruct(msgNum, text);
+
+        assertEquals("message successfully captured", result);
+    }
+
+    @Test
+    public void testCheckMessageID() {
+
+        String msgID = "6382348920";
+
+        boolean result = instance.CheckMessageID(msgID);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testCreateMessageHash() {
+        
+        boolean idresult = instance.CheckMessageID("6382348920");
+
+        // Arrange required state first
+        instance.messageConstruct(1, "Hi tonight");
+
+        String result = instance.createMessageHash();
+
+        // Safer assertion (avoids brittle exact matching)
+        assertNotNull(result);
+        assertTrue(result.contains(":"));
+        assertTrue(result.length() > 0);
+    }
+
+    @Test
+    public void testSentMessage() {
+
+        // Arrange required state first
+        instance.messageConstruct(1, "Test message");
+
+        String result = instance.sentMessage(3);
+
+        assertEquals("Message successfully sent.", result);
+    }
+
+    
+    
     
 /*    @AfterEach
     public void clearJson(){

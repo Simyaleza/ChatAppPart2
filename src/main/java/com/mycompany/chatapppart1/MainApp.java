@@ -154,7 +154,17 @@ public class MainApp {
                        
                        System.out.println();
                        
-                        String msgOutput = message.sentMessage();
+                       
+                       // Options of hat to do with message
+                        System.out.println("What would you like to do with this message?");
+                        System.out.println("1) Send Message");
+                        System.out.println("2) Disregard Message");
+                        System.out.println("3) Store Message to send later");
+
+                        int option = input.nextInt(); // read from scanner -- logic goes here
+                        input.nextLine();
+                       
+                        String msgOutput = message.sentMessage(option);
                         System.err.println(msgOutput);
                         System.out.println("");
 

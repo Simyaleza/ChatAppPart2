@@ -100,13 +100,7 @@ public class Message {
     }
     
     // ask the user to send, delete or store the message
-    public String sentMessage(){
-       System.out.println("What would you like to do with this message?");
-       System.out.println("1) Send Message");
-       System.out.println("2) Disregard Message");
-       System.out.println("3) Store Message to send later");
-       
-       int option = input.nextInt(); // read from scanner -- logic goes here
+    public String sentMessage(int option){
        
        switch (option) {
             case 1: 
