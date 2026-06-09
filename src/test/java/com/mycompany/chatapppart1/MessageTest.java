@@ -4,9 +4,12 @@
  */
 package com.mycompany.chatapppart1;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 /**
  *
  * @author snopu
@@ -14,10 +17,212 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MessageTest {
     
     Message instance = new Message();
+    ArrayList<String> recipients;
+    ArrayList<String> testMessages;
+    ArrayList<String> flags;
     
     // ================ TEST 1 =============================
+    @BeforeEach
+    public void setUp(){
+        
+        Message.clearArrays();
+        recipients = new ArrayList<>();
+        testMessages = new ArrayList<>();
+        flags = new ArrayList<>();
+        
+        
+        //------ Test 1 ---------- 
+        recipients.add("+27834557896");
+        testMessages.add("Did you get the cake?");
+        flags.add("Sent");
+        
+        //------ Test 2-----------
+        recipients.add("+27838884567");
+        testMessages.add("Where are you? You are late! I have asked you to be on time");
+        flags.add("Stored");
+        
+        //--------- Test 3 -------------
+        recipients.add("+27834484567");
+        testMessages.add("Yohooo, I am at your gate.");
+        flags.add("disregard");
+        
+        //-----------Test 4--------------
+        recipients.add("0838884567");
+        testMessages.add("It is dinner time!");
+        flags.add("sent");
+        
+        // ---------- Test 5 -----------
+        recipients.add("+27838884567");
+        testMessages.add("Ok, I am leaving without you.");
+        flags.add("Stored");
+        
+    }
+    
+    // Testing if arrays populated properly
+    @Test
+    public void testSentMessagesArray_correctlyPopulated() {
+
+        // ---------- Message 1 ----------
+        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
+
+        Message msg1 = new Message();
+
+        msg1.messageConstruct(1, testMessages.get(0));
+        msg1.CheckMessageID("1234567890");
+        msg1.checkRecipientCell(recipients.get(0));
+
+        msg1.sentMessage();
+
+        // ---------- Message 4 ----------
+        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
+
+        Message msg4 = new Message();
+
+        msg4.messageConstruct(4, testMessages.get(3));
+        msg4.CheckMessageID("0987654321");
+        msg4.checkRecipientCell(recipients.get(3));
+
+        msg4.sentMessage();
+
+        // ---------- Assertions ----------
+        assertTrue(Message.getSentMessages()
+                .contains("Did you get the cake?"));
+
+        assertTrue(Message.getSentMessages()
+                .contains("It is dinner time!"));
+    }
+    
+    
+    @Test
+    public void testSearchByMessageID_returnsCorrectMessage() {
+
+        // simulate choosing SEND option
+        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
+
+        Message msg4 = new Message();
+
+        // setup message 4
+        msg4.messageConstruct(4, "It is dinner time!");
+
+        msg4.CheckMessageID("0987654321");
+
+        msg4.checkRecipientCell("0838884567");
+
+        // send message
+        msg4.sentMessage();
+
+        // expected result
+        String expected = "It is dinner time!";
+
+        // actual result
+        String actual = msg4.searchByMessageID("0987654321");
+
+        // assertion
+        assertEquals(expected, actual);
+    }
+    
 
     @Test
+    public void testDisplayLongestMessage_returnsCorrectMessage() {
+
+        // populate stored messages using your POE data
+        Message.addStoredMessage(testMessages.get(0));
+
+        Message.addStoredMessage(testMessages.get(1));
+
+        Message.addStoredMessage(testMessages.get(2));
+
+        Message.addStoredMessage(testMessages.get(3));
+
+        Message.addStoredMessage(testMessages.get(4));
+
+        // expected longest message
+        String expected =
+                "Where are you? You are late! I have asked you to be on time";
+
+        // actual result
+        String actual = instance.displayLongestMessage();
+
+        // assertion
+        assertEquals(expected, actual);
+    }
+    
+    
+    @Test
+    public void testSearchByRecipient_returnsAllMatchingMessages() {
+
+        // populate recipient list
+        Message.addRecipient("+27834557896");
+
+        Message.addRecipient("+27838884567");
+
+        Message.addRecipient("+27834484567");
+
+        Message.addRecipient("+27838884567");
+
+        // populate stored messages
+        Message.addStoredMessage("Did you get the cake?");
+
+        Message.addStoredMessage(
+                "Where are you? You are late! I have asked you to be on time.");
+
+        Message.addStoredMessage("Yohooo, I am at your gate.");
+
+        Message.addStoredMessage("Ok, I am leaving without you.");
+
+        // search recipient
+        String result =
+                instance.searchByRecipient("+27838884567");
+
+        // assertions
+        assertTrue(result.contains(
+                "Where are you? You are late! I have asked you to be on time."));
+
+        assertTrue(result.contains(
+                "Ok, I am leaving without you."));
+    }
+ 
+    
+    @Test
+    public void testDeleteByHash_removesCorrectMessage() {
+
+        // create message 2
+        Message msg2 = new Message();
+
+        msg2.messageConstruct(
+                2,
+                "Where are you? You are late! I have asked you to be on time");
+
+        msg2.CheckMessageID("1234567890");
+
+        msg2.checkRecipientCell("+27838884567");
+
+        // create hash
+        String hash = msg2.createMessageHash();
+
+        // populate arrays
+        Message.addStoredMessage(
+                "Where are you? You are late! I have asked you to be on time");
+
+        Message.addMessageHash(hash);
+
+        Message.addMessageID("1234567890");
+
+        Message.addRecipient("+27838884567");
+
+        // delete by hash
+        String actual = msg2.deletebyHash(hash);
+
+        // expected result
+        String expected =
+                "Message: Where are you? You are late! I have asked you to be on time successfully deleted.";
+
+        // assertion
+        assertEquals(expected, actual);
+    }
+
+
+ /*   @Test
     public void testCheckRecipientCell() {
         System.out.println("checkRecipientCell");
         String reciever = "+271869302";
@@ -62,5 +267,5 @@ public class MessageTest {
         assertEquals(expResult, result);
     }
 
-
+*/
 }

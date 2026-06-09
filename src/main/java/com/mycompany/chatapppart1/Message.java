@@ -93,7 +93,7 @@ public class Message {
        String lWord = words[words.length - 1];
        
        // formating the hash
-       String hash = idBegining + ":" + this.messageNumber + ":"+ fWord + lWord;
+       String hash = idBegining + ":" + this.messageNumber + ":"+ fWord +":"+ lWord;
        
        return hash.toUpperCase();
        
@@ -144,6 +144,8 @@ public class Message {
         return report.toString();
    
 }
+    
+    
     
     // returns the count of messages sent 
     public int returnTotalMessages(){
@@ -267,4 +269,37 @@ public class Message {
         }
     }
     
+    
+    
+    // ================= Helper methods ================
+    public static List<String> getSentMessages(){
+        return sentMessages;
+    }
+    
+    public static void clearArrays()    {
+    sentMessages.clear();
+    disregardedMessages.clear();
+    storedMessages.clear();
+    messageHashes.clear();
+    messageIds.clear();
+    recipientList.clear();
+    }
+    
+    public static void addStoredMessage(String message){
+    storedMessages.add(message);
+    }
+    
+
+    public static void addRecipient(String recipient){
+        recipientList.add(recipient);
+    }
+    
+    public static void addMessageHash(String hash){
+        messageHashes.add(hash);
+    }
+
+    public static void addMessageID(String id){
+        messageIds.add(id);
+    } 
+
 }
