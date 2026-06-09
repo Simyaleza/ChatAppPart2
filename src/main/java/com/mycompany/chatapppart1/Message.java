@@ -35,8 +35,7 @@ public class Message {
     private static List<String> storedMessages = new ArrayList<>(); 
     private static List<String> messageHashes = new ArrayList<>(); 
     private static List<String> messageIds = new ArrayList<>(); 
-    private static List<String> recipientStoredList = new ArrayList<>();
-    private static List<String> recipientSentList = new ArrayList<>();
+    private static List<String> recipientList = new ArrayList<>();
     
     Scanner input = new Scanner(System.in);
     
@@ -112,7 +111,6 @@ public class Message {
                 sentMessages.add(this.messageText);
                 messageHashes.add(this.messageHash);
                 messageIds.add(this.messageID);
-                recipientSentList.add(this.recipient);
                 return "Message successfully sent.";
             case 2:
                 disregardedMessages.add(this.messageText);
@@ -121,7 +119,7 @@ public class Message {
                 storeMessage(); // call your JSON method
                 messageHashes.add(this.messageHash);
                 messageIds.add(this.messageID);
-                recipientStoredList.add(this.recipient);
+                recipientList.add(this.recipient);
                 return "Message successfully stored.";
             default:
                 return "Please choose from oprions presented."; // handle unexpected input -- logic goes here
@@ -191,29 +189,45 @@ public class Message {
     }
     
     
-    // search by recipient
+    // search messages by recipient
     public String searchByRecipient(String recipient){
         StringBuilder results = new StringBuilder();
-        // searching through sent messages
-        for (int i = 0; i < recipientSentList.size();i++){
-            if (recipientSentList.get(i).equals(recipient)){
-                results.append("Message: ");
-                results.append(sentMessages.get(i));
-                results.append("\n");
-            }
-        }
         // searching through stored messages
-        for (int i = 0; i < recipientStoredList.size();i++){
-            if (recipientStoredList.get(i).equals(recipient)){
-                results.append("Message: ");
+        for (int i = 0; i < recipientList.size();i++){
+            if (recipientList.get(i).equals(recipient)){
                 results.append(storedMessages.get(i));
                 results.append("\n");
             }
         }
         
+        if (results.length() == 0){
+            return "No messages found.";
+        }
+        
         return results.toString();
     }
     
-    
+    // delete messageHash
+    public String deletebyHash(String hash){
+       for (int i = 0; i < messageHashes.size();i++){
+           if(messageHashes.get(i).equals(hash)){
+               // getting the deleted message
+               String deletedMessage = storedMessages.get(i);
+               
+               // deleting any iteration of message
+               messageHashes.remove(i);
+               messageIds.remove(i);
+               recipientList.remove(i);
+               storedMessages.remove(i);
+               
+               // returning the message that was deleted 
+               return "Message: " + deletedMessage + " successfully deleted.";
+               
+               
+           }
+       }
+       
+       return "Hash not found.";
+    }
     
 }
