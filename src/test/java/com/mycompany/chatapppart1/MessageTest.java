@@ -277,7 +277,7 @@ public void testSentMessagesArray_correctlyPopulated() {
     
     
     
-/*    @AfterEach
+    @AfterEach
     public void clearJson(){
         try(FileWriter fw = new FileWriter("messages.json")){
 
@@ -291,7 +291,7 @@ public void testSentMessagesArray_correctlyPopulated() {
         }
     }
 
-*/
+
  /*   @Test
     public void testCheckRecipientCell() {
         System.out.println("checkRecipientCell");
