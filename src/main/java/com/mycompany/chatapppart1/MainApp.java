@@ -51,12 +51,12 @@ public class MainApp {
 
             // Showing the output of registering
             System.out.println(response);
-        } while (response != "User registered successfully.");
+        } while (!response.equals("User registered successfully."));
         
         //-------------LOGIN SECTION ------------------
         System.out.println("\n========USER LOGIN========");
         
-        while(loginFail <= 3){
+        while(loginFail <= 4){
         
             System.out.print("Enter your username: ");
             String loginUsername = input.nextLine();
@@ -83,8 +83,7 @@ public class MainApp {
             
             
         }
-        System.out.println(loginFail);
-        if (loginFail >= 3){
+        if (loginFail >= 4){
             System.out.println("Too many attempts");
             System.exit(0);
         }
@@ -99,11 +98,13 @@ public class MainApp {
             
             int choice = 0;
             choice = input.nextInt();
+            input.nextLine();
             
             switch (choice){
                 case 1 : // when a user wants to send a message
                     System.out.println("How many messages would you like to send?");
                     int numMessages = input.nextInt();
+                    input.nextLine();
                     
                     // used for the user to enter as much the user has requested.
                     for (int i =0; i< numMessages ; i++){
@@ -116,6 +117,7 @@ public class MainApp {
                        String idString = String.valueOf(number);
                        boolean correctID = message.CheckMessageID(idString);
                        System.out.println("Message ID: " +idString);
+                       System.out.println();
                        
                        
                        // ============= Reciepient =============== 
@@ -158,30 +160,8 @@ public class MainApp {
 
                     }
                     
-                   /* List<String> messages = Message.printMessages();
-                    int msgCounter = message.returnTotalMessages();
-
-                    System.out.println("                        ");
-                    System.out.println("========================");
-                    System.out.println("                        ");
-
-                    System.out.println("Total messages sent: " + msgCounter);
-
-                    if (messages != null){
-                        for(String msg : messages){
-                            
-                            JSONObject obj = new JSONObject(msg);
-
-                            System.out.println("Message: " + obj.getString("message"));
-                            System.out.println("Recipient: " + obj.getString("recipient"));
-                            System.out.println("MessageID: " + obj.getString("messageID"));
-
-                            System.out.println();
-                        }
-                    }else{
-                        System.out.println("No messages have been saved or sent, thxs for using the app");
-                    }
-                        */
+                    String report = message.printMessages();
+                    System.out.println(report);
                     break;
                 case 2:
                     System.out.println("Feature coming soon, choose another function");
@@ -191,12 +171,69 @@ public class MainApp {
                     break;
                     
                 case 4:
-                    System.out.println("1) Display all stored messages");
-                    System.out.println("2) Display longest messages");// search via the length of the message
-                    System.out.println("3) Search by message ID");
-                    System.out.println("4) Search by recipient");
-                    System.out.println("5) Delete by message hash");
-                    System.out.println("6) Display full report");
+                    boolean runMenu = true;
+                    while(runMenu){
+                    System.out.println("=========================");    
+                    System.out.println("STORED MESSAGES MENU");    
+                    System.out.println("=========================");    
+                        
+                        
+                    System.out.println("a) Display all stored messages");
+                    System.out.println("b) Display longest messages");// search via the length of the message
+                    System.out.println("c) Search by message ID");
+                    System.out.println("d) Search by recipient");
+                    System.out.println("e) Delete by message hash");
+                    System.out.println("f) Display full report");
+                    System.out.println("g) Return to main menu");
+                    
+                    String optionInput = input.nextLine();
+                    if (optionInput.isEmpty()) continue;
+                    char option = optionInput.charAt(0);
+                    
+                    switch(option){
+                        case 'a':
+                            String display = message.displayStoredMessages();
+                            System.out.println(display);
+                            break;
+                        case 'b':
+                            String longest = message.displayLongestMessage();
+                            System.out.println(longest);
+                            break;
+                        case 'c':
+                            System.out.println("Please enter the ID, to search message");
+                            String idSearch = input.nextLine();
+                            String results = message.searchByMessageID(idSearch);
+                            System.out.println(results);
+                            break;
+                        case 'd':
+                            System.out.println("Enter recipient number to be searched");
+                            String recipientSearch = input.nextLine();
+                            System.out.println(message.searchByRecipient(recipientSearch));
+                            break;
+                        case 'e':
+                            // delete by hash
+                            System.out.println("Enter hash for message to be deleted!");
+                            String hashInput = input.nextLine();
+                            System.out.println(message.deletebyHash(hashInput));
+                            break;
+                        case 'f':
+                            String msgOutput = message.printMessages();
+                            if (msgOutput != null && !msgOutput.isEmpty()){
+                                System.out.println(msgOutput);    
+                            }else{
+                                System.out.println("No messages have been sent.");
+                            }
+                            break;
+                        case 'g':
+                            runMenu = false;
+                            break;
+                        default:
+                            System.out.println("Input invalid, please choose the correct option.");
+                            
+                            
+                    }
+                        
+                    }
                     break;
                 default:
                     System.out.println("Input invalid, please choose the correct option.");

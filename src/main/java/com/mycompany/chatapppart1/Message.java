@@ -132,6 +132,11 @@ public class Message {
     
     // displays every message sent 
     public static String printMessages(){
+        
+        if (sentMessages.size() == 0){
+            return "No messages have been sent";
+        }
+        
         StringBuilder report = new StringBuilder();
         report.append("=== Message Report ====\n");
         for (int i = 0; i < sentMessages.size(); i++){
@@ -144,9 +149,7 @@ public class Message {
         return report.toString();
    
 }
-    
-    
-    
+
     // returns the count of messages sent 
     public int returnTotalMessages(){
         return counter;
@@ -243,6 +246,41 @@ public class Message {
     }
     
     
+ 
+    public String displayStoredMessages() {
+
+    StringBuilder display = new StringBuilder();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("messages.json"))) {
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+
+            JSONObject obj = new JSONObject(line);
+
+//            String messageID = obj.getString("messageID");
+            String recipient = obj.getString("recipient");
+            String message = obj.getString("message");
+
+           
+            display.append(" | Message: ")
+                   .append(message)
+                   .append(" | Recipient: ")
+                   .append(recipient)
+                   .append("\n");
+        }
+
+    } catch (IOException e) {
+
+        System.out.println("messages.json file not found yet.");
+        return "No stored messages found.";
+    }
+
+    return display.toString();
+}
+    
+    
     public static void localStoredMessages(){
         try (BufferedReader reader = new BufferedReader(new FileReader("messages.json"))) {
 
@@ -254,7 +292,7 @@ public class Message {
                 JSONObject obj = new JSONObject(line);
 
                 // extract values
-                int messageID = obj.getInt("messageID");
+                String messageID = obj.getString("messageID");
                 String recipient = obj.getString("recipient");
                 String message = obj.getString("message");
 

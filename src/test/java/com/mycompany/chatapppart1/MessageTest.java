@@ -5,8 +5,11 @@
 package com.mycompany.chatapppart1;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -220,8 +223,22 @@ public class MessageTest {
         // assertion
         assertEquals(expected, actual);
     }
+    
+/*    @AfterEach
+    public void clearJson(){
+        try(FileWriter fw = new FileWriter("messages.json")){
 
+            fw.write("");
 
+            System.out.println("JSON file cleared.");
+
+        } catch(IOException e){
+
+            System.out.println("Error clearing file.");
+        }
+    }
+
+*/
  /*   @Test
     public void testCheckRecipientCell() {
         System.out.println("checkRecipientCell");
