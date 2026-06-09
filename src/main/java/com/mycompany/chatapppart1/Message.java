@@ -108,11 +108,17 @@ public class Message {
             case 1: 
                 counter++;
                 storeMessage();
+                sentMessages.add(this.messageText);
+                messageHashes.add(this.messageHash);
+                messageIds.add(this.messageID);
                 return "Message successfully sent.";
             case 2:
+                disregardedMessages.add(this.messageText);
                 return "Message shall be deleted!";
             case 3:
                 storeMessage(); // call your JSON method
+                messageHashes.add(this.messageHash);
+                messageIds.add(this.messageID);
                 return "Message successfully stored.";
             default:
                 return "Please choose from oprions presented."; // handle unexpected input -- logic goes here
