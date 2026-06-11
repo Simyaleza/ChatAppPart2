@@ -309,12 +309,12 @@ public class Message {
     }
     
     public static void clearArrays()    {
-    sentMessages.clear();
-    disregardedMessages.clear();
-    storedMessages.clear();
-    messageHashes.clear();
-    messageIds.clear();
-    recipientList.clear();
+        sentMessages.clear();
+        disregardedMessages.clear();
+        storedMessages.clear();
+        messageHashes.clear();
+        messageIds.clear();
+        recipientList.clear();
     }
     
     public static void addStoredMessage(String message){

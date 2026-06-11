@@ -94,7 +94,7 @@ public class MainApp {
             System.out.println("1) Send Messages");
             System.out.println("2) Show recently sent messages");
             System.out.println("3) Quit");
-            System.err.println("4) Stroed Messages"); 
+            System.err.println("4) Stored Messages"); 
             
             int choice = 0;
             choice = input.nextInt();
